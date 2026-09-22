@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Админ-панель — ÉLAN</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231C1A16'/%3E%3Cpath d='M16 6c1.2 4.6 4 7.6 9 9-5 1.4-7.8 4.4-9 11-1.2-6.6-4-9.6-9-11 5-1.4 7.8-4.4 9-9z' fill='%23B5924C'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ВХОД -->
+<div class="login" id="login">
+  <form class="login__card" id="login-form">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 4c1.4 5.4 4.6 8.8 10.5 10.5C20.6 16.2 17.4 19.6 16 28c-1.4-8.4-4.6-11.8-10.5-13.5C11.4 12.8 14.6 9.4 16 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>
+      <span class="brand__name">ÉLAN</span>
+    </a>
+    <div>
+      <span class="eyebrow">Администратор</span>
+      <h2>Введите PIN</h2>
+    </div>
+    <div class="pin" id="pin">
+      <input inputmode="numeric" maxlength="1" aria-label="Цифра 1" autofocus>
+      <input inputmode="numeric" maxlength="1" aria-label="Цифра 2">
+      <input inputmode="numeric" maxlength="1" aria-label="Цифра 3">
+      <input inputmode="numeric" maxlength="1" aria-label="Цифра 4">
+    </div>
+    <p class="login__hint" id="login-hint">Демо-доступ: PIN <code>1234</code></p>
+    <button class="btn btn--primary" type="submit">Войти</button>
+    <a class="small muted" href="index.html">← на сайт</a>
+  </form>
+</div>
+
+<!-- ПАНЕЛЬ -->
+<div class="admin" id="app" hidden>
+  <aside class="side">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 4c1.4 5.4 4.6 8.8 10.5 10.5C20.6 16.2 17.4 19.6 16 28c-1.4-8.4-4.6-11.8-10.5-13.5C11.4 12.8 14.6 9.4 16 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>
+      <span class="brand__name">ÉLAN</span>
+      <span class="brand__sub">админ</span>
+    </a>
+    <nav id="tabs">
+      <a href="#today" data-tab="today" class="is-active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Сегодня</span></a>
+      <a href="#week" data-tab="week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Неделя</span></a>
+      <a href="#list" data-tab="list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h10M4 17h13"/><circle cx="19" cy="16" r="3"/></svg><span>Все записи</span></a>
+      <a href="#clients" data-tab="clients"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Клиенты</span></a>
+      <a href="#settings" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>График</span></a>
+    </nav>
+    <div class="side__foot">
+      <span>Данные хранятся в браузере. Для боевого режима подключается API.</span>
+      <a href="index.html">← Открыть сайт</a>
+      <a href="#" id="logout">Выйти</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- СЕГОДНЯ -->
+    <section data-view="today">
+      <div class="main__head">
+        <div><span class="eyebrow" id="today-eyebrow"></span><h2 id="today-title">Сегодня</h2></div>
+        <div class="actions">
+          <div class="datebar">
+            <button class="btn btn--light btn--sm" id="day-prev">‹</button>
+            <input type="date" id="day-date">
+            <button class="btn btn--light btn--sm" id="day-next">›</button>
+            <button class="btn btn--ghost btn--sm" id="day-today">Сегодня</button>
+          </div>
+          <button class="btn btn--primary btn--sm" id="new-booking">+ Новая запись</button>
+        </div>
+      </div>
+      <div class="kpis" id="kpis" style="margin:1.5rem 0"></div>
+      <div class="card">
+        <div class="card__head"><h3>Расписание дня</h3><span class="small muted">Нажмите на запись, чтобы изменить статус</span></div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <!-- НЕДЕЛЯ -->
+    <section data-view="week" hidden>
+      <div class="main__head">
+        <div><span class="eyebrow">Загрузка мастеров</span><h2>Неделя</h2></div>
+        <div class="actions">
+          <button class="btn btn--light btn--sm" id="week-prev">‹ Пред.</button>
+          <button class="btn btn--light btn--sm" id="week-next">След. ›</button>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card__head"><h3 id="week-title"></h3><span class="small muted">Число записей и загрузка рабочего времени</span></div>
+        <div class="week" id="week"></div>
+      </div>
+    </section>
+
+    <!-- СПИСОК -->
+    <section data-view="list" hidden>
+      <div class="main__head">
+        <div><span class="eyebrow">Журнал</span><h2>Все записи</h2></div>
+        <div class="actions"><button class="btn btn--light btn--sm" id="export-csv">Экспорт CSV</button></div>
+      </div>
+      <div class="card" style="margin-top:1.5rem">
+        <div class="filters" style="margin-bottom:1rem">
+          <input type="search" id="f-q" placeholder="Поиск: имя, телефон, № записи">
+          <select id="f-status"><option value="">Все статусы</option><option value="new">Новые</option><option value="confirmed">Подтверждённые</option><option value="done">Завершённые</option><option value="cancelled">Отменённые</option></select>
+          <select id="f-master"><option value="">Все мастера</option></select>
+          <select id="f-period"><option value="upcoming">Предстоящие</option><option value="today">Сегодня</option><option value="past">Прошедшие</option><option value="all">За всё время</option></select>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Дата</th><th>Клиент</th><th>Услуга</th><th>Мастер</th><th>Сумма</th><th>Статус</th><th></th></tr></thead><tbody id="list-body"></tbody></table></div>
+        <div class="empty" id="list-empty" hidden>Ничего не найдено</div>
+      </div>
+    </section>
+
+    <!-- КЛИЕНТЫ -->
+    <section data-view="clients" hidden>
+      <div class="main__head"><div><span class="eyebrow">База</span><h2>Клиенты</h2></div></div>
+      <div class="card" style="margin-top:1.5rem">
+        <div class="table-wrap"><table><thead><tr><th>Клиент</th><th>Телефон</th><th>Визитов</th><th>Потрачено</th><th>Последний визит</th><th>Любимая услуга</th></tr></thead><tbody id="clients-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- ГРАФИК / НАСТРОЙКИ -->
+    <section data-view="settings" hidden>
+      <div class="main__head"><div><span class="eyebrow">График и перерывы</span><h2>Блокировки времени</h2></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem" class="settings-grid">
+        <div class="card">
+          <div class="card__head"><h3>Добавить перерыв или выходной</h3></div>
+          <form class="form" id="block-form">
+            <div class="field"><label>Мастер</label><select id="b-master"></select></div>
+            <div class="form__row">
+              <div class="field"><label>Дата</label><input type="date" id="b-date" required></div>
+              <div class="field"><label>Причина</label><input id="b-reason" placeholder="Обед, обучение, выходной"></div>
+            </div>
+            <div class="form__row">
+              <div class="field"><label>С</label><input type="time" id="b-from" value="13:00" step="1800"></div>
+              <div class="field"><label>До</label><input type="time" id="b-to" value="14:00" step="1800"></div>
+            </div>
+            <label class="small" style="display:flex;gap:.5rem;align-items:center"><input type="checkbox" id="b-allday"> Весь день (выходной)</label>
+            <button class="btn btn--primary" type="submit">Заблокировать время</button>
+          </form>
+        </div>
+        <div class="card">
+          <div class="card__head"><h3>Активные блокировки</h3></div>
+          <div class="blocks" id="blocks-list"></div>
+          <hr style="border:0;border-top:1px solid var(--line);margin:1.5rem 0">
+          <div class="card__head"><h3>Демо-данные</h3></div>
+          <p class="small muted" style="margin-bottom:1rem">Сбросить все записи и сгенерировать заново тестовое расписание на две недели.</p>
+          <button class="btn btn--danger btn--sm" id="reset-demo">Сбросить демо-данные</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ДЕТАЛИ ЗАПИСИ -->
+<div class="drawer" id="drawer" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="drawer__panel" id="drawer-panel"></div>
+</div>
+
+<!-- НОВАЯ ЗАПИСЬ (админ) -->
+<div class="modal" id="new-modal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__panel" style="max-width:520px">
+    <div class="modal__head"><div class="modal__title"><span class="eyebrow">Администратор</span><h3>Новая запись</h3></div><button class="modal__close" data-close aria-label="Закрыть">✕</button></div>
+    <form class="modal__body form" id="new-form">
+      <div class="field"><label>Услуга</label><select id="n-service" required></select></div>
+      <div class="field"><label>Мастер</label><select id="n-master" required></select></div>
+      <div class="form__row">
+        <div class="field"><label>Дата</label><input type="date" id="n-date" required></div>
+        <div class="field"><label>Время</label><select id="n-time" required></select></div>
+      </div>
+      <div class="form__row">
+        <div class="field"><label>Имя клиента</label><input id="n-name" required></div>
+        <div class="field"><label>Телефон</label><input id="n-phone" type="tel" placeholder="+7 700 000 00 00" required></div>
+      </div>
+      <div class="field"><label>Комментарий</label><input id="n-comment"></div>
+      <div style="display:flex;justify-content:flex-end;gap:.5rem"><button class="btn btn--light" type="button" data-close>Отмена</button><button class="btn btn--primary" type="submit">Создать</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<style>@media (max-width:860px){.settings-grid{grid-template-columns:1fr !important}}</style>
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
