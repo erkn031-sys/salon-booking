@@ -25,10 +25,10 @@
   $('#login-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const pin = pinInputs.map((x) => x.value).join('');
-    if (pin === SALON.adminPin) { sessionStorage.setItem('elan.admin', '1'); enter(); }
+    if (pin === SALON.adminPin) { Store.session.set('elan.admin', '1'); enter(); }
     else { $('#login-hint').textContent = 'Неверный PIN, попробуйте ещё раз'; $('#login-hint').style.color = 'var(--red)'; pinInputs.forEach((x) => (x.value = '')); pinInputs[0].focus(); }
   });
-  $('#logout').addEventListener('click', (e) => { e.preventDefault(); sessionStorage.removeItem('elan.admin'); location.reload(); });
+  $('#logout').addEventListener('click', (e) => { e.preventDefault(); Store.session.del('elan.admin'); location.reload(); });
 
   function enter() {
     $('#login').hidden = true; $('#app').hidden = false;
@@ -304,5 +304,5 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
 
   /* ---------- старт ---------- */
-  if (sessionStorage.getItem('elan.admin') === '1') enter(); else pinInputs[0].focus();
+  if (Store.session.get('elan.admin') === '1') enter(); else pinInputs[0].focus();
 })();

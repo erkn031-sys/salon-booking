@@ -272,7 +272,7 @@
     try {
       B.result = Store.create({ serviceId: B.serviceId, masterId: B._slotMaster || B.masterId, date: B.date, time: B.time, client: B.client, source: 'site' });
     } catch (err) { toast(err.message); B.step = 2; renderStep(); return; }
-    localStorage.setItem('elan.lastPhone', U.normPhone(B.client.phone));
+    Store.kv.set('elan.lastPhone', U.normPhone(B.client.phone));
     renderSuccess();
   }
 
@@ -302,7 +302,7 @@
   document.addEventListener('click', (e) => {
     if (!e.target.closest('[data-open-visits]')) return;
     closeModal('#book-modal'); openModal('#visits-modal');
-    const p = localStorage.getItem('elan.lastPhone');
+    const p = Store.kv.get('elan.lastPhone');
     if (p) { $('#visits-phone').value = U.fmtPhone(p); renderVisits(p); } else { $('#visits-list').innerHTML = ''; }
   });
   $('#visits-form').addEventListener('submit', (e) => { e.preventDefault(); renderVisits($('#visits-phone').value); });

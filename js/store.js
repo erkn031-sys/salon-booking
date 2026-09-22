@@ -1,13 +1,23 @@
 /* ==========================================================
    STORE — хранилище записей и движок расчёта свободных слотов.
 
-   В демо данные лежат в localStorage браузера. Чтобы подключить
+   В демо данные лежат в хранилище браузера (Web Storage). Чтобы подключить
    настоящий сервер, достаточно заменить методы load()/save()
    (или конкретные методы create/update) на fetch() к вашему API —
    остальной код сайта и админки менять не нужно.
    ========================================================== */
 
 (function () {
+  /* Безопасная обёртка над хранилищем: если Web Storage недоступен
+     (приватный режим, iframe с ограничениями) — данные живут в памяти страницы. */
+  const mem = {};
+  const makeStorage = (kind) => {
+    try { const s = window[kind + 'Storage']; s.setItem('__t', '1'); s.removeItem('__t'); return s; }
+    catch { return { getItem: (k) => (k in mem ? mem[k] : null), setItem: (k, v) => { mem[k] = String(v); }, removeItem: (k) => { delete mem[k]; } }; }
+  };
+  const store = makeStorage('local');
+  const session = makeStorage('session');
+
   const KEY = 'elan.bookings.v1';
   const BLOCK_KEY = 'elan.blocks.v1';
 
@@ -47,8 +57,8 @@
   };
 
   /* ---------- загрузка / сохранение ---------- */
-  const load = (k) => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } };
-  const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+  const load = (k) => { try { return JSON.parse(store.getItem(k)) || []; } catch { return []; } };
+  const save = (k, v) => store.setItem(k, JSON.stringify(v));
 
   const byId = (arr, id) => arr.find((x) => x.id === id);
 
@@ -185,7 +195,7 @@
 
     /* ---------- демо-данные ---------- */
     seedIfEmpty() {
-      if (localStorage.getItem(KEY)) return false;
+      if (store.getItem(KEY)) return false;
       const names = ['Алия', 'Карина', 'Тимур', 'Асель', 'Дарья', 'Арман', 'Жанна', 'Мария', 'Динара', 'Ерлан', 'Сабина', 'Наталья', 'Айдана', 'Виктория', 'Санжар', 'Гульнара'];
       const clients = names.map((n, i) => ({ name: n, phone: '7700' + String(1234567 + i * 71113).slice(0, 7) }));
       const list = [];
@@ -225,7 +235,11 @@
       return true;
     },
 
-    resetDemo() { localStorage.removeItem(KEY); localStorage.removeItem(BLOCK_KEY); this.seedIfEmpty(); },
+    resetDemo() { store.removeItem(KEY); store.removeItem(BLOCK_KEY); this.seedIfEmpty(); },
+
+    /* простое key-value для мелочей (последний телефон, сессия админа) */
+    kv: { get: (k) => store.getItem(k), set: (k, v) => store.setItem(k, v), del: (k) => store.removeItem(k) },
+    session: { get: (k) => session.getItem(k), set: (k, v) => session.setItem(k, v), del: (k) => session.removeItem(k) },
   };
 
   Store.seedIfEmpty();
